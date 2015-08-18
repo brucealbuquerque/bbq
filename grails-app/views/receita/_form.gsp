@@ -5,9 +5,9 @@
 <div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'etapas', 'error')} ">
 	<label for="etapas">
 		<g:message code="receita.etapas.label" default="Etapas" />
-		
+
 	</label>
-	
+
 <ul class="one-to-many">
 <g:each in="${receitaInstance?.etapas?}" var="e">
     <li><g:link controller="etapa" action="show" id="${e.id}">${e?.encodeAsHTML()}</g:link></li>
@@ -20,6 +20,15 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'likes', 'error')} required">
+	<label for="likes">
+		<g:message code="receita.likes.label" default="likes" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="likes" type="number" value="${receitaInstance.likes}" required=""/>
+
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'nome', 'error')} required">
 	<label for="nome">
 		<g:message code="receita.nome.label" default="Nome" />
@@ -28,4 +37,3 @@
 	<g:textField name="nome" required="" value="${receitaInstance?.nome}"/>
 
 </div>
-

@@ -23,17 +23,21 @@
 			<table>
 			<thead>
 					<tr>
-					
+
+						<g:sortableColumn property="likes" title="${message(code: 'receita.likes.label', default: 'likes')}" />
+
 						<g:sortableColumn property="nome" title="${message(code: 'receita.nome.label', default: 'Nome')}" />
-					
+
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${receitaInstanceList}" status="i" var="receitaInstance">
 					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${receitaInstance.id}">${fieldValue(bean: receitaInstance, field: "nome")}</g:link></td>
-					
+
+						<td><g:link action="show" id="${receitaInstance.id}">${fieldValue(bean: receitaInstance, field: "likes")}</g:link></td>
+
+						<td>${fieldValue(bean: receitaInstance, field: "nome")}</td>
+
 					</tr>
 				</g:each>
 				</tbody>

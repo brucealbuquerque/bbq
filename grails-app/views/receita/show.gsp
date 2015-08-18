@@ -22,27 +22,36 @@
 			<div class="message" role="status">${flash.message}</div>
 			</g:if>
 			<ol class="property-list receita">
-			
+
 				<g:if test="${receitaInstance?.etapas}">
 				<li class="fieldcontain">
 					<span id="etapas-label" class="property-label"><g:message code="receita.etapas.label" default="Etapas" /></span>
-					
+
 						<g:each in="${receitaInstance.etapas}" var="e">
 						<span class="property-value" aria-labelledby="etapas-label"><g:link controller="etapa" action="show" id="${e.id}">${e?.encodeAsHTML()}</g:link></span>
 						</g:each>
-					
+
 				</li>
 				</g:if>
-			
+
+				<g:if test="${receitaInstance?.likes}">
+				<li class="fieldcontain">
+					<span id="likes-label" class="property-label"><g:message code="receita.likes.label" default="likes" /></span>
+
+						<span class="property-value" aria-labelledby="likes-label"><g:fieldValue bean="${receitaInstance}" field="likes"/></span>
+
+				</li>
+				</g:if>
+
 				<g:if test="${receitaInstance?.nome}">
 				<li class="fieldcontain">
 					<span id="nome-label" class="property-label"><g:message code="receita.nome.label" default="Nome" /></span>
-					
+
 						<span class="property-value" aria-labelledby="nome-label"><g:fieldValue bean="${receitaInstance}" field="nome"/></span>
-					
+
 				</li>
 				</g:if>
-			
+
 			</ol>
 			<g:form url="[resource:receitaInstance, action:'delete']" method="DELETE">
 				<fieldset class="buttons">

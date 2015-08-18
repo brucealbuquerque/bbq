@@ -3,6 +3,7 @@ package bbq
 class Receita {
 
   Long id
+  Long likes
   String nome
   static hasMany = [etapas : Etapa]
 
@@ -10,5 +11,9 @@ class Receita {
       this.nome
   }
     static constraints = {
+    }
+
+    static mapping = {
+      likes defaultValue: 0
     }
 }
