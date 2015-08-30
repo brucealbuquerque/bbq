@@ -62,6 +62,7 @@
           <div>
             <h2>${receitaInstance.nome}</h2>
             <div class="coracao">
+              <span class="autor">criador por: ${receitaInstance.criador.username}</span>
               <span class="icon-heart"> ${receitaInstance.likes.size()}</span>
               <sec:ifLoggedIn>
   							<g:form url="[resource:receitaInstance, action:'like']" method="POST">
