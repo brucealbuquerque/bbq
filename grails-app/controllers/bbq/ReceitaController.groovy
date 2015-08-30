@@ -3,6 +3,7 @@ package bbq
 
 
 import static org.springframework.http.HttpStatus.*
+import grails.plugin.springsecurity.annotation.Secured
 import grails.transaction.Transactional
 import comum.Usuario
 
@@ -68,6 +69,7 @@ class ReceitaController {
     }
 
     @Transactional
+    @Secured
     def save(Receita receitaInstance) {
         if (receitaInstance == null) {
             notFound()
@@ -79,6 +81,10 @@ class ReceitaController {
             return
         }
 */
+        def user = springSecurityService.currentUser
+        Usuario usuario = Usuario.findById(user.id)
+
+        receitaInstance.criador = usuario
         def file = request.getFile('image')
         if (!file.empty) {
           receitaInstance.image = file.getBytes()
@@ -89,6 +95,26 @@ class ReceitaController {
 
         redirect(action: "index")
     }
+    @Transactional
+    def comentar(Receita receitaInstance) {
+
+      def user = springSecurityService.currentUser
+      Usuario usuario = Usuario.findById(user.id)
+
+      Comentario comentario = new Comentario()
+      comentario.usuario  = usuario
+
+      comentario.texto = params.texto
+      comentario.data = new Date()
+
+      receitaInstance.addToComentarios(comentario)
+
+      receitaInstance.save flush:true
+
+      redirect(action: "show", id : receitaInstance.id)
+
+    }
+
 
     def edit(Receita receitaInstance) {
         respond receitaInstance
@@ -111,18 +137,6 @@ class ReceitaController {
         redirect(action: "index")
     }
 
-    @Transactional
-    def delete(Receita receitaInstance) {
-
-        if (receitaInstance == null) {
-            notFound()
-            return
-        }
-
-        receitaInstance.delete flush:true
-
-        redirect(action: "index")
-    }
 
     protected void notFound() {
         request.withFormat {

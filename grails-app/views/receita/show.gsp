@@ -32,11 +32,14 @@
                 Logged in as <a  href="/bbq/usuario/show/${usuario}"><sec:username/></a>
 
                 <form class="form-signin"  method="POST" action="/bbq/j_spring_security_logout" >
-                  <input type="submit" value="sair" />
+                  <input type="submit" value="sair" /> ||
+                  <g:link controller='receita' action='create'>Criar uma receita</g:link>
                 </form>
                 </sec:ifLoggedIn>
                 <sec:ifNotLoggedIn>
                   <g:link controller='usuario' action='autenticar'>Login</g:link>
+                  ||
+                  <g:link controller='usuario' action='create'>Criar usuário</g:link>
                 </sec:ifNotLoggedIn>
 
               </div>
@@ -81,6 +84,31 @@
             ${receitaInstance.etapas}
           </div>
             <iframe width="95%" height="315" src="https://www.youtube.com/embed/${receitaInstance.youtubeLink}" frameborder="0" allowfullscreen></iframe>
+          </div>
+
+          <div class="comments">
+            <g:each in="${receitaInstance.comentarios}" var="${comentario}">
+            <div class="comment" >
+              <div class="author">
+                ${comentario.usuario.username}
+              </div>
+              <div class="comment_date">
+                ${comentario.data}
+              </div>
+              <div class="comment_text">
+                ${comentario.texto}
+              </div>
+            </div>
+          </g:each>
+          </div>
+
+          <div class="comment_insert">
+            <g:form url="[resource:receitaInstance, action:'comentar']" >
+              <div class="comment_text">
+                <g:textArea type="text" name="texto" value="${params.texto}" />
+              </div>
+              <button type="submit" value="postar" > Postar </button>
+            </g:form>
           </div>
         </div>
       </main>

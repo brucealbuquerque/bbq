@@ -7,9 +7,10 @@ class Receita {
   String youtubeLink
   String etapas
   String ingredientes
+  Usuario criador
   byte[] image
-  static hasMany = [likes: Usuario]
-  
+  static hasMany = [likes: Usuario, comentarios: Comentario]
+
 
   public String toString() {
       this.nome

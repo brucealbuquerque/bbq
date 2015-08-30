@@ -129,6 +129,8 @@ grails.plugin.springsecurity.logout.afterLogoutUrl = '/receita/index'
 grails.plugin.springsecurity.controllerAnnotations.staticRules = [
   '/**':   ['permitAll'],
   '/usuario/autenticar':   ['permitAll'],
+  '/receita/create':   ['IS_AUTHENTICATED_FULLY'],
+  '/receita/save':   ['IS_AUTHENTICATED_FULLY'],
 	'/index':           ['permitAll'],
 	'/index.gsp':       ['permitAll'],
 	'/assets/**':       ['permitAll'],
