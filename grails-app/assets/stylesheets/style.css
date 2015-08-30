@@ -196,13 +196,6 @@ main .show img{
     color: #f00;
   }
 
-
-  body {
-  padding-top: 40px;
-  padding-bottom: 40px;
-  background-color: #eee;
-}
-
 .form-signin {
   max-width: 330px;
   padding: 15px;
@@ -237,3 +230,30 @@ main .show img{
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }
+
+
+.img-cadastro, .criar-receita img{width: 5%; height: 5%;}
+.cadastro-user h1, .criar-receita h1{font-size: 1.4em; color: #f57c00;}
+.cadastro-user form fieldset, .criar-receita form fieldset{border: none;}
+.cadastro-user form label, .criar-receita form label{font-size: .9em; color: #333; display: block;}
+.cadastro-user form input, .criar-receita form input{border: solid 1px #ccc; padding: .5em; border-radius: 3px; display: block;}
+.cadastro-user .fieldcontain, .criar-receita .fieldcontain{margin: .5em 0;}
+.criar-receita textarea{
+  width: 500px; height: 150px;
+}
+
+.right{float: right;}
+.cadastrar{margin: 0 .7em;}
+.nova-receita{
+  float: left;
+  color: #1e88e5;
+}
+.save{
+  width: 100px;
+  background: #2e7d32;
+  color: #fff;
+}
+
+.barra-superior{ padding: .5em 0;}
+.barra-superior p{ float: right; margin-top: .3em; margin-right: 1em;}
+.barra-superior form{width: 5%; float: right;}
