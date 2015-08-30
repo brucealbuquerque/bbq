@@ -1,64 +1,89 @@
 
 <%@ page import="bbq.Receita" %>
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'receita.label', default: 'Receita')}" />
-		<title><g:message code="default.show.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#show-receita" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="show-receita" class="content scaffold-show" role="main">
-			<h1><g:message code="default.show.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-			<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<ol class="property-list receita">
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+   <meta name="HandheldFriendly" content="True" />
+   <meta name="MobileOptimized" content="320" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-				<g:if test="${receitaInstance?.etapas}">
-				<li class="fieldcontain">
-					<span id="etapas-label" class="property-label"><g:message code="receita.etapas.label" default="Etapas" /></span>
+   <title>BBQ EXtouro</title>
+	 <asset:stylesheet src="style.css"/>
+	 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css' />
 
-						<g:each in="${receitaInstance.etapas}" var="e">
-						<span class="property-value" aria-labelledby="etapas-label"><g:link controller="etapa" action="show" id="${e.id}">${e?.encodeAsHTML()}</g:link></span>
-						</g:each>
+   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-				</li>
-				</g:if>
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-				<g:if test="${receitaInstance?.likes}">
-				<li class="fieldcontain">
-					<span id="likes-label" class="property-label"><g:message code="receita.likes.label" default="likes" /></span>
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div>
+          <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <sec:ifLoggedIn>
+                Logged in as <a  href="/bbq/usuario/show/${usuario}"><sec:username/></a>
 
-						<span class="property-value" aria-labelledby="likes-label"><g:fieldValue bean="${receitaInstance}" field="likes"/></span>
+                <form class="form-signin"  method="POST" action="/bbq/j_spring_security_logout" >
+                  <input type="submit" value="sair" />
+                </form>
+                </sec:ifLoggedIn>
+                <sec:ifNotLoggedIn>
+                  <g:link controller='usuario' action='autenticar'>Login</g:link>
+                </sec:ifNotLoggedIn>
 
-				</li>
-				</g:if>
+              </div>
+          </nav>
 
-				<g:if test="${receitaInstance?.nome}">
-				<li class="fieldcontain">
-					<span id="nome-label" class="property-label"><g:message code="receita.nome.label" default="Nome" /></span>
+        </div>
+        <a href="/bbq/receita/index.html">
+          <asset:image src="bbq.png" alt="Logo BBQ ExTouro" />
+        </a>
+        <h1>BBQ anywhere at any time!</h1>
+      </header>
+      <main>
+        <div class="search clearfix">
+          <g:form action="search" method="GET">
+            <g:textField  placeholder="Pesquise aqui uma receita" name="query" value="${params.query}" />
+            <button class="icon-fire" type="submit" ></button>
+          </g:form>
+        </div>
+        <div class="show clearfix">
+          <div>
+            <h2>${receitaInstance.nome}</h2>
+            <div class="coracao">
+              <span class="icon-heart"> ${receitaInstance.likes.size()}</span>
+              <sec:ifLoggedIn>
+  							<g:form url="[resource:receitaInstance, action:'like']" method="POST">
+  									<g:actionSubmit  action="like" value="curtir" >
+  										<span class="icon-like" />
+  								</g:actionSubmit>
+  							</g:form>
+              </sec:ifLoggedIn>
+            </div>
+						<img src="<g:createLink controller="Receita" action="image" width="320" height="240"
+          params="[id: receitaInstance.id]"/>"/>
+          </div>
 
-						<span class="property-value" aria-labelledby="nome-label"><g:fieldValue bean="${receitaInstance}" field="nome"/></span>
-
-				</li>
-				</g:if>
-
-			</ol>
-			<g:form url="[resource:receitaInstance, action:'delete']" method="DELETE">
-				<fieldset class="buttons">
-					<g:link class="edit" action="edit" resource="${receitaInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
-					<g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
-				</fieldset>
-			</g:form>
-		</div>
-	</body>
+          <div class="ingredientes">
+            <h3>Ingredientes</h3>
+            ${receitaInstance.ingredientes}
+          </div>
+          <div class="preparo">
+            <h3>Modo de Preparo</h3>
+            ${receitaInstance.etapas}
+          </div>
+            <iframe width="95%" height="315" src="https://www.youtube.com/embed/${receitaInstance.youtubeLink}" frameborder="0" allowfullscreen></iframe>
+          </div>
+        </div>
+      </main>
+    </div>
+  </body>
 </html>

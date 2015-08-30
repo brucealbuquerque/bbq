@@ -4,23 +4,67 @@ package bbq
 
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import comum.Usuario
 
 @Transactional(readOnly = true)
 class ReceitaController {
+
+    def springSecurityService
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
-        respond Receita.list(params), model:[receitaInstanceCount: Receita.count()]
+        def receitas = Receita.list()
+        receitas = receitas.sort {it.likes.size()}
+        receitas = receitas.reverse()
+
+        respond  receitas, model:[receitaInstanceCount: Receita.count(), usuario: springSecurityService.currentUser?.id]
+    }
+
+    def search() {
+
+
+      def recs = Receita.findAll("from Receita r WHERE r.nome like '%"+params.query+"%' " +
+        "or r.ingredientes like '%"+params.query+"%' or r.etapas like '%"+params.query+"%'")
+        recs = recs.sort { it.likes.size() }
+        recs = recs.reverse()
+
+      respond recs, model:[usuario: springSecurityService.currentUser?.id]
     }
 
     def show(Receita receitaInstance) {
+        respond receitaInstance, model:[usuario: springSecurityService.currentUser?.id]
+    }
+
+    def image() {
+
+      Receita receita = Receita.findById(params.id)
+
+        response.contentType = 'image/jpeg' // or the appropriate image content type
+        response.outputStream << receita.image
+        response.outputStream.flush()
+
+    }
+
+    def create(Receita receitaInstance) {
+
+        receitaInstance = new Receita(params)
         respond receitaInstance
     }
 
-    def create() {
-        respond new Receita(params)
+    @Transactional
+    def like(Receita receita) {
+
+        def user = springSecurityService.currentUser
+        Usuario usuario = Usuario.findByUsername(user)
+        println user
+
+        receita.addToLikes(usuario)
+        receita.save flush:true
+
+        redirect(action: "show", id : receita.id)
+
     }
 
     @Transactional
@@ -29,21 +73,21 @@ class ReceitaController {
             notFound()
             return
         }
-
+/*
         if (receitaInstance.hasErrors()) {
             respond receitaInstance.errors, view:'create'
             return
         }
+*/
+        def file = request.getFile('image')
+        if (!file.empty) {
+          receitaInstance.image = file.getBytes()
+        }
+
 
         receitaInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'receita.label', default: 'Receita'), receitaInstance.id])
-                redirect receitaInstance
-            }
-            '*' { respond receitaInstance, [status: CREATED] }
-        }
+        redirect(action: "index")
     }
 
     def edit(Receita receitaInstance) {
@@ -64,13 +108,7 @@ class ReceitaController {
 
         receitaInstance.save flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Receita.label', default: 'Receita'), receitaInstance.id])
-                redirect receitaInstance
-            }
-            '*'{ respond receitaInstance, [status: OK] }
-        }
+        redirect(action: "index")
     }
 
     @Transactional
@@ -83,13 +121,7 @@ class ReceitaController {
 
         receitaInstance.delete flush:true
 
-        request.withFormat {
-            form multipartForm {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'Receita.label', default: 'Receita'), receitaInstance.id])
-                redirect action:"index", method:"GET"
-            }
-            '*'{ render status: NO_CONTENT }
-        }
+        redirect(action: "index")
     }
 
     protected void notFound() {

@@ -8,24 +8,7 @@
 
 	</label>
 
-<ul class="one-to-many">
-<g:each in="${receitaInstance?.etapas?}" var="e">
-    <li><g:link controller="etapa" action="show" id="${e.id}">${e?.encodeAsHTML()}</g:link></li>
-</g:each>
-<li class="add">
-<g:link controller="etapa" action="create" params="['receita.id': receitaInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'etapa.label', default: 'Etapa')])}</g:link>
-</li>
-</ul>
 
-
-</div>
-
-<div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'likes', 'error')} required">
-	<label for="likes">
-		<g:message code="receita.likes.label" default="likes" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="likes" type="number" value="${receitaInstance.likes}" required=""/>
 
 </div>
 
@@ -35,5 +18,37 @@
 		<span class="required-indicator">*</span>
 	</label>
 	<g:textField name="nome" required="" value="${receitaInstance?.nome}"/>
+
+</div>
+
+
+<div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'etapas', 'error')} required">
+	<label for="likes">
+		Etapas
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textArea type="text"  name="etapas" value="${receitaInstance.etapas}" />
+
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'ingredientes', 'error')} required">
+	<label for="ingredientes">
+		Ingredientes
+		<span class="required-indicator">*</span>
+	</label>
+	<g:textArea type="text"  name="ingredientes" value="${receitaInstance.ingredientes}" />
+</div>
+
+
+<div>
+	<g:field type="file" accept="image/*"  name="image" value="${receitaInstance.image}"  />
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: receitaInstance, field: 'youtubeLink', 'error')} required">
+	<label for="likes">
+		<g:message code="receita.youtubeLink.label" default="Link do youtube" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field type="text" name="youtubeLink" value="${receitaInstance.youtubeLink}" />
 
 </div>

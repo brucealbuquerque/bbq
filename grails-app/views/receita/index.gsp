@@ -1,50 +1,86 @@
 
 <%@ page import="bbq.Receita" %>
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta name="layout" content="main">
-		<g:set var="entityName" value="${message(code: 'receita.label', default: 'Receita')}" />
-		<title><g:message code="default.list.label" args="[entityName]" /></title>
-	</head>
-	<body>
-		<a href="#list-receita" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
-		<div class="nav" role="navigation">
-			<ul>
-				<li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-				<li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-			</ul>
-		</div>
-		<div id="list-receita" class="content scaffold-list" role="main">
-			<h1><g:message code="default.list.label" args="[entityName]" /></h1>
-			<g:if test="${flash.message}">
-				<div class="message" role="status">${flash.message}</div>
-			</g:if>
-			<table>
-			<thead>
-					<tr>
+<html lang="pt-br">
+  <head>
+    <meta charset="utf-8">
+   <meta name="HandheldFriendly" content="True" />
+   <meta name="MobileOptimized" content="320" />
+   <meta name="viewport" content="width=device-width, initial-scale=1" />
+	 <asset:stylesheet src="style.css"/>
+	 <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,500' rel='stylesheet' type='text/css' />
 
-						<g:sortableColumn property="likes" title="${message(code: 'receita.likes.label', default: 'likes')}" />
+   <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 
-						<g:sortableColumn property="nome" title="${message(code: 'receita.nome.label', default: 'Nome')}" />
+  <!-- Optional theme -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
 
-					</tr>
-				</thead>
-				<tbody>
-				<g:each in="${receitaInstanceList}" status="i" var="receitaInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+  <!-- Latest compiled and minified JavaScript -->
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 
-						<td><g:link action="show" id="${receitaInstance.id}">${fieldValue(bean: receitaInstance, field: "likes")}</g:link></td>
+   <title>BBQ EXtouro</title>
 
-						<td>${fieldValue(bean: receitaInstance, field: "nome")}</td>
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <div>
+          <nav class="navbar navbar-default">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <sec:ifLoggedIn>
+                Logged in as <a  href="/bbq/usuario/show/${usuario}"><sec:username/></a>
 
-					</tr>
-				</g:each>
-				</tbody>
-			</table>
-			<div class="pagination">
-				<g:paginate total="${receitaInstanceCount ?: 0}" />
-			</div>
-		</div>
-	</body>
+                <form class="form-signin"  method="POST" action="/bbq/j_spring_security_logout" >
+                  <input type="submit" value="sair" />
+                </form>
+                </sec:ifLoggedIn>
+                <sec:ifNotLoggedIn>
+                  <g:link controller='usuario' action='autenticar'>Login</g:link>
+                </sec:ifNotLoggedIn>
+
+              </div>
+          </nav>
+
+        </div>
+        <a href="index.html">
+          <asset:image src="bbq.png" alt="Logo BBQ ExTouro" />
+        </a>
+
+        <h1>BBQ anywhere at any time!</h1>
+      </header>
+      <main>
+        <div class="search clearfix">
+          <g:form action="search" method="GET">
+            <g:textField  placeholder="Pesquise aqui uma receita" name="query" value="${params.query}" />
+            <button class="icon-fire" type="submit" ></button>
+          </g:form>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Receita </th>
+              <th class="rate icon-heart"></th>
+            </tr>
+          </thead>
+          <tbody>
+						<g:each in="${receitaInstanceList}" var="receita" status="i">
+            <tr>
+              <td>
+                <a href="show/${receita.id}">${receita.nome}</a>
+              </td>
+              <td class="rate">
+                ${receita.likes.size()}
+              </td>
+            </tr>
+					</g:each>
+
+
+
+          </tbody>
+        </table>
+      </main>
+    </div>
+  </body>
 </html>

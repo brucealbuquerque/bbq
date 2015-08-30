@@ -115,3 +115,25 @@ log4j.main = {
            'org.hibernate',
            'net.sf.ehcache.hibernate'
 }
+
+
+// Added by the Spring Security Core plugin:
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'comum.Usuario'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'comum.UsuarioPermissao'
+grails.plugin.springsecurity.authority.className = 'comum.Permissao'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/receita/index'
+grails.plugin.springsecurity.auth.loginFormUrl = '/usuario/autenticar'
+grails.plugin.springsecurity.dao.hideUserNotFoundException = false
+grails.plugin.springsecurity.failureHandler.defaultFailureUrl = '/usuario/autenticar'
+grails.plugin.springsecurity.logout.afterLogoutUrl = '/receita/index'
+grails.plugin.springsecurity.controllerAnnotations.staticRules = [
+  '/**':   ['permitAll'],
+  '/usuario/autenticar':   ['permitAll'],
+	'/index':           ['permitAll'],
+	'/index.gsp':       ['permitAll'],
+	'/assets/**':       ['permitAll'],
+	'/**/js/**':        ['permitAll'],
+	'/**/css/**':       ['permitAll'],
+	'/**/images/**':    ['permitAll'],
+	'/**/favicon.ico':  ['permitAll']
+]
