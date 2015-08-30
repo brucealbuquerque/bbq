@@ -25,28 +25,20 @@
   <body>
     <div class="wrapper">
       <header>
-        <div>
-          <nav class="navbar navbar-default">
-            <div class="container-fluid">
-              <div class="navbar-header">
-                <sec:ifLoggedIn>
-                Logged in as <a  href="/bbq/usuario/show/${usuario}"><sec:username/></a>
-
-                <form class="form-signin"  method="POST" action="/bbq/j_spring_security_logout" >
-                  <input type="submit" value="sair" /> ||
-                  <g:link controller='receita' action='create'>Criar uma receita</g:link>
+            <div class="barra-superior clearfix">
+              <sec:ifLoggedIn>
+                <form method="POST" action="/bbq/j_spring_security_logout" >
+                  <input type="submit" value="sair" />
                 </form>
-                </sec:ifLoggedIn>
-                <sec:ifNotLoggedIn>
-                  <g:link controller='usuario' action='autenticar'>Login</g:link>
-                  ||
-                  <g:link controller='usuario' action='create'>Criar usuário</g:link>
-                </sec:ifNotLoggedIn>
+                <p>  Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a></p>
+                <a href="/bbq/receita/create" class="nova-receita">Cadastrar Nova Receita</a>
+              </sec:ifLoggedIn>
+              <sec:ifNotLoggedIn>
+                <g:link controller='usuario' action='autenticar' class="right">Login</g:link>
+                <g:link controller='usuario' action='create' class="right cadastrar">Cadastrar</g:link>
+              </sec:ifNotLoggedIn>
+            </div>
 
-              </div>
-          </nav>
-
-        </div>
         <a href="index.html">
           <asset:image src="bbq.png" alt="Logo BBQ ExTouro" />
         </a>
@@ -57,13 +49,13 @@
         <div class="search clearfix">
           <g:form action="search" method="GET">
             <g:textField  placeholder="Pesquise aqui uma receita" name="query" value="${params.query}" />
-            <button class="icon-fire" type="submit" ></button>
+            <button class="icon-fire" type="submit"></button>
           </g:form>
         </div>
         <table>
           <thead>
             <tr>
-              <th>Receita </th>
+              <th> </th>
               <th class="rate icon-heart"></th>
             </tr>
           </thead>
