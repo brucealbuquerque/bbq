@@ -7,6 +7,27 @@
 	</head>
 	<body>
 		<div class="wrapper criar-receita">
+			<header>
+				<div class="barra-superior clearfix">
+					<sec:ifLoggedIn>
+						<form method="POST" action="/bbq/j_spring_security_logout" >
+						<!--  <input type="submit" value="sair" class="sair" /> -->
+						<a href="/bbq/j_spring_security_logout" class="sair">sair</a>
+						</form>
+						<p class="right">
+							Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a>
+							<a href="/bbq/receita/index" class="nova-receita">Voltar</a>
+						<p>
+
+					</sec:ifLoggedIn>
+					<sec:ifNotLoggedIn>
+						<g:link controller='usuario' action='autenticar' class="right">Login</g:link>
+						<g:link controller='usuario' action='create' class="right cadastrar">Cadastrar</g:link>
+					</sec:ifNotLoggedIn>
+				</div>
+			</header>
+
+
 			<asset:image src="bbq.png" alt="Logo BBQ ExTouro" class="img-cadastro" />
 			<div id="create-receita" class="content scaffold-create" role="main">
 				<h1>Nova Receita</h1>

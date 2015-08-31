@@ -24,19 +24,23 @@
   <body>
     <div class="wrapper">
       <header>
-        <div class="barra-superior clearfix">
-          <sec:ifLoggedIn>
-            <form method="POST" action="/bbq/j_spring_security_logout" >
-              <input type="submit" value="sair" />
-            </form>
-            <p>  Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a></p>
+      <div class="barra-superior clearfix">
+        <sec:ifLoggedIn>
+          <form method="POST" action="/bbq/j_spring_security_logout" >
+          <!--  <input type="submit" value="sair" class="sair" /> -->
+          <a href="/bbq/j_spring_security_logout" class="sair">sair</a>
+          </form>
+          <p class="right">
+            Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a>
             <a href="/bbq/receita/create" class="nova-receita">Cadastrar Nova Receita</a>
-          </sec:ifLoggedIn>
-          <sec:ifNotLoggedIn>
-            <g:link controller='usuario' action='autenticar' class="right">Login</g:link>
-            <g:link controller='usuario' action='create' class="right cadastrar">Cadastrar</g:link>
-          </sec:ifNotLoggedIn>
-        </div>
+          <p>
+
+        </sec:ifLoggedIn>
+        <sec:ifNotLoggedIn>
+          <g:link controller='usuario' action='autenticar' class="right">Login</g:link>
+          <g:link controller='usuario' action='create' class="right cadastrar">Cadastrar</g:link>
+        </sec:ifNotLoggedIn>
+      </div>
         <a href="/bbq/receita/index.html">
           <asset:image src="bbq.png" alt="Logo BBQ ExTouro" />
         </a>
@@ -57,23 +61,23 @@
               <span class="icon-heart"> ${receitaInstance.likes.size()}</span>
               <sec:ifLoggedIn>
   							<g:form url="[resource:receitaInstance, action:'like']" method="POST">
-  									<g:actionSubmit  action="like" value="curtir" >
-  										<span class="icon-like" />
+  									<g:actionSubmit  action="like" value="curtir">
+
   								</g:actionSubmit>
   							</g:form>
               </sec:ifLoggedIn>
             </div>
-						<img src="<g:createLink controller="Receita" action="image" width="320" height="240"
+						<img src="<g:createLink controller="Receita" action="image" class="imagem-show"
           params="[id: receitaInstance.id]"/>"/>
           </div>
 
           <div class="ingredientes">
             <h3>Ingredientes</h3>
-            ${receitaInstance.ingredientes}
+            <p>${receitaInstance.ingredientes}</p>
           </div>
           <div class="preparo">
             <h3>Modo de Preparo</h3>
-            ${receitaInstance.etapas}
+            <p>${receitaInstance.etapas}</p>
           </div>
             <iframe width="95%" height="315" src="https://www.youtube.com/embed/${receitaInstance.youtubeLink}" frameborder="0" allowfullscreen></iframe>
           </div>
@@ -81,15 +85,12 @@
           <div class="comments">
             <g:each in="${receitaInstance.comentarios}" var="${comentario}">
             <div class="comment" >
-              <div class="author">
-                ${comentario.usuario.username}
-              </div>
-              <div class="comment_date">
+                ${comentario.usuario.username} comentou em:
                 ${comentario.data}
-              </div>
-              <div class="comment_text">
-                ${comentario.texto}
-              </div>
+                <div class="comentario">
+                  ${comentario.texto}
+                </div>
+
             </div>
           </g:each>
           </div>
@@ -99,7 +100,7 @@
               <div class="comment_text">
                 <g:textArea type="text" name="texto" value="${params.texto}" />
               </div>
-              <button type="submit" value="postar" > Postar </button>
+              <button type="submit" value="postar" class="save"> Postar </button>
             </g:form>
           </div>
         </div>

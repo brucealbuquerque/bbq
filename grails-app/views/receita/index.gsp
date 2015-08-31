@@ -1,4 +1,3 @@
-
 <%@ page import="bbq.Receita" %>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,10 +27,14 @@
             <div class="barra-superior clearfix">
               <sec:ifLoggedIn>
                 <form method="POST" action="/bbq/j_spring_security_logout" >
-                  <input type="submit" value="sair" />
+                <!--  <input type="submit" value="sair" class="sair" /> -->
+                <a href="/bbq/j_spring_security_logout" class="sair">sair</a>
                 </form>
-                <p>  Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a></p>
-                <a href="/bbq/receita/create" class="nova-receita">Cadastrar Nova Receita</a>
+                <p class="right">
+                  Logado como <a href="/bbq/usuario/show/${usuario}"><sec:username/></a>
+                  <a href="/bbq/receita/create" class="nova-receita">Cadastrar Nova Receita</a>
+                <p>
+
               </sec:ifLoggedIn>
               <sec:ifNotLoggedIn>
                 <g:link controller='usuario' action='autenticar' class="right">Login</g:link>
@@ -55,13 +58,17 @@
         <table>
           <thead>
             <tr>
-              <th> </th>
+              <th style="width: 8%;"> </th>
+              <th></th>
               <th class="rate icon-heart"></th>
             </tr>
           </thead>
           <tbody>
 						<g:each in="${receitaInstanceList}" var="receita" status="i">
             <tr>
+              <td>
+              <img src="<g:createLink controller="Receita" action="image" params="[id: receita.id]"/>"/ class="imagem-index">
+              </td>
               <td>
                 <a href="show/${receita.id}">${receita.nome}</a>
               </td>

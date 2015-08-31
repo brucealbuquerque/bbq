@@ -133,7 +133,7 @@ main .show{
 .show h2{
   font-weight: normal;
   color: #dd2c00;
-  font-size: 1.8em;
+  font-size: 2.2em;
   margin: 0;
 }
 .show .coracao{
@@ -152,7 +152,10 @@ main .show{
   width: 48%;
   float: left;
   padding: 2% 0;
-  text-align: justify;
+  text-align: center;
+}
+.ingredientes p, .preparo p{
+  padding: 0 1em; font-size: 1.2em;
 }
 .show ul{
   text-align: left;
@@ -160,8 +163,8 @@ main .show{
   padding-right: .3em;
 }
 main .show img{
-  max-width: 300px;
-  max-height: 300px;
+  max-width: 250px;
+  max-height: 250px;
   border-radius: 5px;
 }
 .show .video{
@@ -244,10 +247,18 @@ main .show img{
 
 .right{float: right;}
 .cadastrar{margin: 0 .7em;}
-.nova-receita{
-  float: left;
-  color: #1e88e5;
+a.nova-receita, .sair{
+  padding: .5em 1em;
+  height: 30px;
+  color: #fff;
+  border-radius: 3px;
 }
+a.nova-receita:hover, a.sair:hover{
+  text-decoration: none;
+  color: #fff;
+}
+.nova-receita{background-color: #00c853;}
+.sair{background-color: #dd2c00;}
 .save{
   width: 100px;
   background: #2e7d32;
@@ -256,4 +267,17 @@ main .show img{
 
 .barra-superior{ padding: .5em 0;}
 .barra-superior p{ float: right; margin-top: .3em; margin-right: 1em;}
-.barra-superior form{width: 5%; float: right;}
+.barra-superior form{width: 5%; float: right; margin-top: .3em;}
+
+
+.comments{width: 80%; margin: .5em auto; border: solid 1px #ccc;  padding: .5em; border-radius: 3px;}
+.comment{margin: .5em 0;}
+.comentario{background-color: #f5f5f5;  font-size: 1em; color: #111;}
+.comment_insert{width: 80%; margin: 2em auto;}
+.comment_insert button{border: none; outline: none;border-radius: 3px; padding: .5em; float: right;}
+  .comment_insert textarea{width: 100%;}
+
+
+
+
+.imagem-index{max-width: 50px; max-height: 50px;}

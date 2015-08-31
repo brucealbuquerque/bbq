@@ -17,9 +17,7 @@
 		<g:layoutHead/>
 	</head>
 	<body>
-		<div>
-			teste
-		</div>
+	
 
 		<g:layoutBody/>
 	</body>
